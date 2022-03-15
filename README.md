@@ -43,7 +43,7 @@ compilers: {
 npx truffle compile
 ```
 
-## Install and use local blockchain (https://github.com/trufflesuite/ganache)[Ganache]
+## Install and use local blockchain [Ganache](https://github.com/trufflesuite/ganache)
 ```
 npm install ganache-cli
 npx ganache-cli --deterministic //run ganache on localhost:8545
