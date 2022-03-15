@@ -93,3 +93,19 @@ truffle(development)> (await box.retrieve()).toString()
 ```
 npx truffle exec --network development ./scripts/index.js
 ```
+
+# Write unit test
+## Use [Chai](https://www.chaijs.com/) assertions for unit tests
+```
+npm install chai
+```
+Write tests inside test/ folder. Tests are best structured by mirroring the contracts directory: for each .sol file there, create a corresponding test file.
+Write test calling test/Box.test.js
+```
+npx truffle test
+```
+
+## Performing complex assertions using [OpenZeppelin Test Helpers](https://docs.openzeppelin.com/test-helpers/0.5/)
+```
+npm install @openzeppelin/test-helpers
+```
