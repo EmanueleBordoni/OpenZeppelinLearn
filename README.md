@@ -9,7 +9,7 @@ npm init -y
 ### Guide to npx
 A third binary was included when installing node: npx. This is used to run executables installed locally in your project.
 
-## Use Truffle as development tool
+## Use [Truffle](https://trufflesuite.com/) as development tool
 ```
 npm install truffle
 npx truffle init
@@ -109,3 +109,71 @@ npx truffle test
 ```
 npm install @openzeppelin/test-helpers
 ```
+
+# Deploy on a public testnet
+## Configure
+```
+npm install @truffle/hdwallet-provider
+```
+
+```
+// truffle-config.js
+const { alchemyApiKey, mnemonic } = require('./secrets.json');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+
+ module.exports = {
+   ...
+   networks: {
+     development: {
+      ...
+     },
+    rinkeby: {
+      provider: () => new HDWalletProvider(
+        mnemonic, `https://eth-rinkeby.alchemyapi.io/v2/${alchemyApiKey}`,
+      ),
+      network_id: 4,
+      gasPrice: 10e9,
+      skipDryRun: true,
+    },
+   },
+   ...
+ };
+```
+### ./secrets.json
+```
+{
+  "mnemonic": "drama film snack motion ...",
+  "alchemyApiKey": "JPV2..."
+}
+```
+
+## Console test
+```
+npx truffle console --network rinkeby
+truffle(rinkeby)> accounts
+[ '0xEce6999C6c5BDA71d673090144b6d3bCD21d13d4',
+  '0xC1310ade58A75E6d4fCb8238f9559188Ea3808f9',
+... ]
+## or
+accounts = await web3.eth.getAccounts()
+acc1 = accounts[1]
+balance1 = await web3.eth.getBalance(acc1)
+```
+
+## Deploy on testnet
+```
+npx truffle migrate --network rinkeby
+```
+
+```
+npx truffle console --network rinkeby
+truffle(rinkeby)> box = await Box.deployed()
+undefined
+truffle(rinkeby)> await box.store(42)
+{ tx:
+   '0x7d1a556b34fcb26855c6646669fc926738b05589591de6c7bb1f8773546817e7',
+...
+truffle(rinkeby)> (await box.retrieve()).toString()
+'42'
+```
+
