@@ -40,6 +40,8 @@ compilers: {
 
 ## Truffle compile
 ```
+npm install @openzeppelin/contracts
+npm install @openzeppelin/contracts-upgradeable
 npx truffle compile
 ```
 
