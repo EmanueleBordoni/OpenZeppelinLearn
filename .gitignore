@@ -3,7 +3,7 @@ node_modules
 /dist
 build
 secrets.json
-.openzeppelin
+.openzeppelin/
 
 
 # local env files
