@@ -1,0 +1,54 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xD833215cBcc3f914bD1C9ece3EE7BF8B14f841bb",
+    "txHash": "0xf8f51a60fc31b1948238b8cab04a0c58ef3c8e04f3a81a8fcc3ff38930b26780"
+  },
+  "proxies": [
+    {
+      "address": "0x9561C133DD8580860B6b7E504bC5Aa500f0f06a7",
+      "txHash": "0xfdd68076418b066cd03fd1ccf29f37a54b4d67776c146ff0c50d7b2f6d2bd79b",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "925ac28bbf9839bef9f86ec5b41ec3785d913ce448340c01b8751ecba4a82e6f": {
+      "address": "0xC89Ce4735882C9F0f0FE26686c53074E09B0D550",
+      "txHash": "0x9e30921db0ca399ae2f6f1df5f878b8488ccb950c874c95495e1277d67b96e29",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Box",
+            "label": "_value",
+            "type": "t_uint256",
+            "src": "../project:/contracts/Box.sol:6"
+          }
+        ],
+        "types": {
+          "t_uint256": {
+            "label": "uint256"
+          }
+        }
+      }
+    },
+    "01c3ba37320016517cdb11c3854419e58447d3987ca7ee58cc7d8498e0984ab2": {
+      "address": "0x59d3631c86BbE35EF041872d502F218A39FBa150",
+      "txHash": "0x2e36d97dc4f9bddfabc55986c34285a566452bfb689cfb5f553daf769d55d497",
+      "layout": {
+        "storage": [
+          {
+            "contract": "BoxV2",
+            "label": "_value",
+            "type": "t_uint256",
+            "src": "../project:/contracts/Box.sol:6"
+          }
+        ],
+        "types": {
+          "t_uint256": {
+            "label": "uint256"
+          }
+        }
+      }
+    }
+  }
+}

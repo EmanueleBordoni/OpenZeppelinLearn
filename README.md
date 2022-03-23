@@ -177,3 +177,83 @@ truffle(rinkeby)> (await box.retrieve()).toString()
 '42'
 ```
 
+# Create [Upgradable smart contract](https://docs.openzeppelin.com/learn/upgrading-smart-contracts#upgrading-a-contract-via-plugins)
+To implement upgrades the SM need to be deployed using Upgrade Plugins
+```
+npm install @openzeppelin/truffle-upgrades
+```
+
+```
+// contracts/Box.sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Box {
+    uint256 private _value;
+
+    // Emitted when the stored value changes
+    event ValueChanged(uint256 value);
+
+    // Stores a new value in the contract
+    function store(uint256 value) public {
+        _value = value;
+        emit ValueChanged(value);
+    }
+
+    // Reads the last stored value
+    function retrieve() public view returns (uint256) {
+        return _value;
+    }
+}
+```
+
+The deploy is different:
+```
+// migrations/3_deploy_upgradeable_box.js
+const { deployProxy } = require('@openzeppelin/truffle-upgrades');
+
+const Box = artifacts.require('Box');
+
+module.exports = async function (deployer) {
+  await deployProxy(Box, [42], { deployer, initializer: 'store' });
+};
+```
+
+Then to upgrade contract:
+```
+// contracts/BoxV2.sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract BoxV2 {
+    // ... code from Box.sol
+
+    // Increments the stored value by 1
+    function increment() public {
+        _value = _value + 1;
+        emit ValueChanged(_value);
+    }
+}
+```
+
+
+```
+// migrations/4_upgrade_box.js
+const { upgradeProxy } = require('@openzeppelin/truffle-upgrades');
+
+const Box = artifacts.require('Box');
+const BoxV2 = artifacts.require('BoxV2');
+
+module.exports = async function (deployer) {
+  const existing = await Box.deployed();
+  await upgradeProxy(existing.address, BoxV2, { deployer });
+};
+```
+
+## Limitations of contract upgrades
+- Contracts **cannot** have a constructor, you can use [Initializable](https://docs.openzeppelin.com/learn/upgrading-smart-contracts#contracts::api/proxy.adoc#Initializable)
+
+- The new version of the contract **cannot** change the storage layout of that contract. This means that, if you have already declared a state variable in your contract, you cannot remove it, change its type, or declare another variable before it.
+
+- Follow [Writing Upgradeable Contracts](https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable) and [Modifying Your Contracts](https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable#modifying-your-contracts)
+
